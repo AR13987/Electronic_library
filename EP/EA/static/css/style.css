@@ -1,0 +1,223 @@
+/* Общие стили */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background-color: #FFA500;
+    color: #fff;
+    padding: 15px 20px;
+    text-align: center;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 20px;
+}
+
+nav ul li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.container {
+    display: flex;
+    margin: 20px;
+}
+
+main {
+    flex: 3; /* Основной контент занимает 3/4 ширины */
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.admin-profile {
+    display: inline-block;
+}
+
+.admin-change-status {
+    display: inline-block;
+}
+
+.login-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 300px;
+}
+
+.project-page {
+    padding: 20px;
+}
+
+.applications {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.application {
+    margin-bottom: 20px;
+    display: inline-block;
+}
+
+.application img {
+    max-width: 100%; /* Адаптивное изображение */
+    height: auto; /* Сохраняем пропорции изображения */
+    border-radius: 5px;
+}
+
+.sidebar {
+    width: 200px;
+    padding: 20px;
+    margin: 20px;
+    background-color: #CD853F;
+    color: #FFFF;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #000;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #CD853F;
+    color: #FFFF;
+}
+
+.project-list {
+    list-style: none;
+    padding: 0;
+    display: inline-block
+}
+
+.project-item {
+    background: #fff;
+    margin: 10px 0;
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.project-item h3 {
+    margin-top: 0;
+}
+
+.project-link {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+
+.project-link:hover {
+    background-color: #0056b3;
+}
+
+.registration {
+    max-width: 500px;
+    margin: 50px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Стили формы */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.errorlist {
+    color: red;
+    list-style-type: none;
+    padding: 0;
+}
+
+.error {
+    border: 1px solid red;
+}
+
+footer {
+    text-align: center;
+    padding: 15px;
+    background-color: #004524;
+    color: white;
+    position: relative; /* Чтобы подвал оставался внизу страницы */
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Кнопка */
+button {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+/* Согласие */
+.consent {
+    margin-bottom: 15px;
+}
+
+/* Мобильная адаптация */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column; /* На мобильных устройствах боковая панель будет под основным контентом */
+        margin: 10px;
+    }
+
+    .sidebar {
+        margin-left: 0;
+        margin-top: 20px; /* Отступ сверху для боковой панели */
+    }
+}

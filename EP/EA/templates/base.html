@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block title %}{% endblock %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>Добро пожаловать на наш сайт!</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'EA:index' %}">Главная</a></li>
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'EA:logout' %}">
+                    {% csrf_token %}
+                    <button type="submit">Выйти</button>
+                </form>
+                {% else %}
+                <li><a href="{% url 'EA:login' %}">Войти</a></li>
+                <li>Нет аккаунта? <a href="{% url 'EA:register' %}">Зарегистрируйтесь!</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <main>
+            {% block content %}
+            <!-- Основное содержимое страницы будет здесь -->
+            {% endblock %}
+        </main>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 Design.pro</p>
+    </footer>
+
+</body>
+</html>
