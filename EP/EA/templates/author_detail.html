@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block title %}<title>Local Library</title>{% endblock %}
+{% block content %}
+<h1>{{ author.first_name }} {{ author.last_name }}</h1>
+<p><strong>Дата рождения:</strong> {{ author.date_of_birth }}</p>
+<p><strong>Дата смерти:</strong> {{ author.date_of_death }}</p>
+<p><strong>Биография:</strong> {{ author.biography }}</p>
+<p><strong>Работы:</strong> {{ author.works }}</p>
+<p><strong>Значимые достижения:</strong> {{ author.notable_achievements }}</p>
+{% endblock %}

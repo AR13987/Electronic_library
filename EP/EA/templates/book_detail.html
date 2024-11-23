@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}<title>Local Library</title>{% endblock %}
+{% block content %}
+<h1>{{ book.title }}</h1>
+{% if book.cover_image %}
+    <img src="{{ book.cover_image.url }}" alt="Cover Image">
+{% endif %}
+<p><strong>Автор:</strong> <a href="{% url 'EA:author-detail' book.author.id %}">{{ book.author.first_name }} {{ book.author.last_name }}</a></p>
+<p><strong>Жанр:</strong> {{ book.display_genre }}</p>
+<p><strong>Описание:</strong> {{ book.summary }}</p>
+<p><strong>ISBN:</strong> {{ book.isbn }}</p>
+<p><strong>Год публикации:</strong> {{ book.publication_year }}</p>
+<p><strong>Издатель:</strong> {{ book.publisher }}</p>
+{% endblock %}

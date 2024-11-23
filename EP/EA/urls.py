@@ -10,6 +10,11 @@ urlpatterns = [
     path('search/', views.search, name='search'),
 ]
 
+urlpatterns += [
+    path('book/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
+    path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
+]
+
 from django.conf import settings
 from django.conf.urls.static import static
 if settings.DEBUG:

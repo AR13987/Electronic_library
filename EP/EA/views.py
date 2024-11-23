@@ -26,24 +26,18 @@ def index(request):
         context={'num_books':num_books,'num_instances':num_instances,'num_instances_available':num_instances_available,'num_authors':num_authors, 'num_genres':num_genres, 'num_books_word':num_books_word, 'num_visits':num_visits},
     )
 
+
 from django.views import generic
-class BookListView(generic.ListView):
-    model = Book
-    paginate_by = 10
-
-
 class BookDetailView(generic.DetailView):
     model = Book
-
-
-
-class AuthorListView(generic.ListView):
-    model = Author
-    paginate_by = 10
-
+    template_name = 'book_detail.html'
+    context_object_name = 'book'
 
 class AuthorDetailView(generic.DetailView):
     model = Author
+    template_name = 'author_detail.html'
+    context_object_name = 'author'
+
 
 from django.shortcuts import redirect, render
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
