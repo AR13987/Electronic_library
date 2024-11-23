@@ -91,12 +91,9 @@ class Author(models.Model):
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('Died', null=True, blank=True)
-
-    # Новые поля
     biography = models.TextField(max_length=2000, help_text="Enter a brief biography of the author", blank=True)
     works = models.TextField(max_length=2000, help_text="List of works by the author", blank=True)
-    notable_achievements = models.TextField(max_length=2000, help_text="Significant achievements of the author",
-                                            blank=True)
+    notable_achievements = models.TextField(max_length=2000, help_text="Significant achievements of the author", blank=True)
 
     def get_absolute_url(self):
         """

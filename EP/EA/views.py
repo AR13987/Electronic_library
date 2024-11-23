@@ -63,6 +63,20 @@ def register(request):
 
     return render(request, 'registration/register.html', {'form': form})
 
+
+from .forms import SearchForm
+def search(request):
+    form = SearchForm()
+    results = []
+
+    if request.method == 'GET' and 'query' in request.GET:
+        query = request.GET['query']
+        results = (Book.objects.filter(title__icontains=query) | Book.objects.filter(author__first_name__icontains=query) | Book.objects.filter(author__last_name__icontains=query) | Book.objects.filter(genre__name__icontains=query))
+
+
+    return render(request, 'search.html', {'form': form, 'results': results})
+
+
 def login_user(request):
     if request.method == 'POST':
         form = CustomAuthenticationForm(request, data=request.POST)

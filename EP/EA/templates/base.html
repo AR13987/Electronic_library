@@ -13,6 +13,7 @@
         <nav>
             <ul>
                 <li><a href="{% url 'EA:index' %}">Главная</a></li>
+                <li><a href="{% url 'EA:search' %}">Поиск книг</a></li>
                 {% if user.is_authenticated %}
                 <form method="post" action="{% url 'EA:logout' %}">
                     {% csrf_token %}

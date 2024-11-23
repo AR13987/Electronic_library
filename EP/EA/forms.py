@@ -11,3 +11,7 @@ class CustomAuthenticationForm(AuthenticationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'password']
+
+
+class SearchForm(forms.Form):
+    query = forms.CharField(label='Поиск', max_length=100)
