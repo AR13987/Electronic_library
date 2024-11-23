@@ -7,8 +7,8 @@ class BookInline(admin.TabularInline):
     extra = 0
 # Define the admin class
 class AuthorAdmin(admin.ModelAdmin):
-    list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death')
-    fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death')]
+    list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death', 'biography', 'works', 'notable_achievements')
+    fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death'), 'biography', 'works', 'notable_achievements']
     inlines = [BookInline]
 
 # Register the admin class with the associated model
