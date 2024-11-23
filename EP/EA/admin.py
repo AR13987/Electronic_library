@@ -1,9 +1,7 @@
 from django.contrib import admin
 # Register your models here.
-from .models import Author, Genre, Book, BookInstance, Language
+from .models import Author, Genre, Book, BookInstance, Language, Edition, Publisher
 
-# admin.site.register(Book)
-# admin.site.register(Author)
 class BookInline(admin.TabularInline):
     model = Book
     extra = 0
@@ -17,8 +15,12 @@ class AuthorAdmin(admin.ModelAdmin):
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Genre)
 admin.site.register(Language)
-# admin.site.register(BookInstance)
+admin.site.register(Edition)
+admin.site.register(Publisher)
 
+class EditionInline(admin.TabularInline):
+    model = Edition
+    extra = 1
 
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
@@ -27,7 +29,14 @@ class BooksInstanceInline(admin.TabularInline):
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre', 'language')
-    inlines = [BooksInstanceInline]
+    inlines = [EditionInline]
+
+    def save_model(self, request, obj, form, change):
+        if hasattr(obj, 'title_type') and obj.title_type == 'textbook':
+            # Убеждаемся, что у учебника только одно переиздание
+            if obj.editions.count() > 1:
+                raise ValueError("Учебник может иметь только одно переиздание.")
+        super().save_model(request, obj, form, change)
 
 # Register the Admin classes for BookInstance using the decorator
 @admin.register(BookInstance)

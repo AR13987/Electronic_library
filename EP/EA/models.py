@@ -114,9 +114,20 @@ class Author(models.Model):
         ordering = ['last_name']
 
 
+class Publisher(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
+
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 class Book(models.Model):
+    TITLE_CHOICES = [
+        ('fiction', 'Художественное произведение'),
+        ('textbook', 'Учебник'),
+    ]
     """
     Model representing a book (but not a specific copy of a book).
     """
@@ -131,6 +142,7 @@ class Book(models.Model):
     publisher = models.CharField(blank=True, null=True, max_length=100, help_text="Enter the publisher of the book")
     cover_image = models.ImageField(upload_to='covers/', blank=True, null=True, help_text="Upload the cover image of the book")
     text_file = models.FileField(upload_to='books/', blank=True, null=True, help_text="Upload the text file of the book")
+    title_type = models.CharField(blank=True, null=True, max_length=20)
 
     class Meta:
         unique_together = (('title', 'author', 'publication_year', 'publisher'),)  # Уникальность по указанным полям
@@ -155,6 +167,17 @@ class Book(models.Model):
 
     display_genre.short_description = 'Genre'
 
+
+class Edition(models.Model):
+    book = models.ForeignKey(Book, related_name='editions', on_delete=models.CASCADE)
+    publisher = models.ForeignKey(Publisher, on_delete=models.CASCADE)
+    year = models.IntegerField()
+
+    class Meta:
+        unique_together = ('book', 'publisher', 'year')
+
+    def __str__(self):
+        return f"{self.book.title} - {self.publisher.name} ({self.year})"
 
 
 import uuid # Required for unique book instances
