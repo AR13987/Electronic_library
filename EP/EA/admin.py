@@ -1,17 +1,16 @@
 from django.contrib import admin
-# Register your models here.
 from .models import Author, Genre, Book, BookInstance, Language, Edition, Publisher
 
 class BookInline(admin.TabularInline):
     model = Book
     extra = 0
-# Define the admin class
+# Определение класса администратора:
 class AuthorAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'date_of_birth', 'date_of_death', 'biography', 'works', 'notable_achievements')
     fields = ['first_name', 'last_name', ('date_of_birth', 'date_of_death'), 'biography', 'works', 'notable_achievements']
     inlines = [BookInline]
 
-# Register the admin class with the associated model
+# Регистарция классов с соответствующими модями:
 admin.site.register(Author, AuthorAdmin)
 admin.site.register(Genre)
 admin.site.register(Language)
@@ -25,7 +24,7 @@ class EditionInline(admin.TabularInline):
 class BooksInstanceInline(admin.TabularInline):
     model = BookInstance
     extra = 0
-# Register the Admin classes for Book using the decorator
+# Регистрация классов администратора для Book с помощью декоратора:
 @admin.register(Book)
 class BookAdmin(admin.ModelAdmin):
     list_display = ('title', 'author', 'display_genre', 'language')
@@ -38,7 +37,7 @@ class BookAdmin(admin.ModelAdmin):
                 raise ValueError("Учебник может иметь только одно переиздание.")
         super().save_model(request, obj, form, change)
 
-# Register the Admin classes for BookInstance using the decorator
+# Регистрация классов Admin для BookInstance с помощью декоратора:
 @admin.register(BookInstance)
 class BookInstanceAdmin(admin.ModelAdmin):
     list_display = ('book', 'status', 'borrower', 'due_back', 'id')

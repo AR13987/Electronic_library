@@ -41,36 +41,33 @@ class CustomUser(AbstractUser):
             raise ValidationError('Необходимо согласие на обработку персональных данных.')
 
 
+# Модель, представляющая жанр книги (например, научная фантастика, документальная литература):
 from django.db import models
 from datetime import date
 class Genre(models.Model):
-    """
-    Model representing a book genre (e.g. Science Fiction, Non Fiction).
-    """
     name = models.CharField(max_length=200, help_text="Enter a book genre (e.g. Science Fiction, French Poetry etc.)")
 
+    # Строка для представления объекта модели (на сайте администратора и т. д.):
     def __str__(self):
-        """
-        String for representing the Model object (in Admin site etc.)
-        """
+
         return self.name
 
 
-
+# Модель, представляющая язык (например, английский, французский, японский и т. д.):
 from django.db.models import UniqueConstraint
 from django.db.models.functions import Lower
 class Language(models.Model):
-    """Model representing a Language (e.g. English, French, Japanese, etc.)"""
     name = models.CharField(max_length=200,
                             unique=True,
                             help_text="Enter the book's natural language (e.g. English, French, Japanese etc.)")
 
+    # Возвращение URL-адреса для доступа к определенному языковому экземпляру:
     def get_absolute_url(self):
-        """Returns the url to access a particular language instance."""
+
         return reverse('language-detail', args=[str(self.id)])
 
     def __str__(self):
-        """String for representing the Model object (in Admin site etc.)"""
+
         return self.name
 
     class Meta:
@@ -83,10 +80,9 @@ class Language(models.Model):
         ]
 
 
+# Модель, представляющая автора:
 class Author(models.Model):
-    """
-    Model representing an author.
-    """
+
     first_name = models.CharField(max_length=100)
     last_name = models.CharField(max_length=100)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -95,16 +91,13 @@ class Author(models.Model):
     works = models.TextField(max_length=2000, help_text="List of works by the author", blank=True, null=True)
     notable_achievements = models.TextField(max_length=2000, help_text="Significant achievements of the author", blank=True, null=True)
 
+    # Возвращение URL-адреса для доступа к конкретному экземпляру автора:
     def get_absolute_url(self):
-        """
-        Returns the url to access a particular author instance.
-        """
+
         return reverse('author-detail', args=[str(self.id)])
 
     def __str__(self):
-        """
-        String for representing the Model object.
-        """
+
         return '%s, %s' % (self.last_name, self.first_name)
 
     class Meta:
@@ -118,6 +111,7 @@ class Publisher(models.Model):
         return self.name
 
 
+# Модель, представляющая книгу (но не конкретный экземпляр книги):
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 class Book(models.Model):
@@ -125,9 +119,7 @@ class Book(models.Model):
         ('fiction', 'Художественное произведение'),
         ('textbook', 'Учебник'),
     ]
-    """
-    Model representing a book (but not a specific copy of a book).
-    """
+
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
@@ -145,21 +137,16 @@ class Book(models.Model):
         unique_together = (('title', 'author', 'publication_year', 'publisher'),)  # Уникальность по указанным полям
 
     def __str__(self):
-        """
-        String for representing the Model object.
-        """
+
         return self.title
 
     def get_absolute_url(self):
-        """
-        Returns the url to access a particular book instance.
-        """
+
         return reverse('book-detail', args=[str(self.id)])
 
+    # Создание строки для Жанра. Это необходимо для отображения жанра в Админе:
     def display_genre(self):
-        """
-        Creates a string for the Genre. This is required to display genre in Admin.
-        """
+
         return ', '.join([genre.name for genre in self.genre.all()[:3]])
 
     display_genre.short_description = 'Genre'
@@ -177,11 +164,10 @@ class Edition(models.Model):
         return f"{self.book.title} - {self.publisher.name} ({self.year})"
 
 
-import uuid # Required for unique book instances
+# Модель, представляющая собой конкретный экземпляр книги (т. е. тот, который можно взять в библиотеке):
+import uuid
 class BookInstance(models.Model):
-    """
-    Model representing a specific copy of a book (i.e. that can be borrowed from the library).
-    """
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Unique ID for this particular book across whole library")
     book = models.ForeignKey(Book, on_delete=models.SET_NULL, null=True)
     imprint = models.CharField(max_length=200)
@@ -203,9 +189,7 @@ class BookInstance(models.Model):
 
 
     def __str__(self):
-        """
-        String for representing the Model object
-        """
+
         return '%s (%s)' % (self.id,self.book.title)
 
     @property
