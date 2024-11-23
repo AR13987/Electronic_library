@@ -8,7 +8,7 @@ body {
 }
 
 header {
-    background-color: #FFA500;
+    background-color: #008000;
     color: #fff;
     padding: 15px 20px;
     text-align: center;
@@ -192,7 +192,7 @@ input[type="password"]:focus {
 /* Кнопка */
 button {
     padding: 10px;
-    background-color: #007BFF;
+    background-color: #964B00;
     color: white;
     border: none;
     border-radius: 5px;
@@ -201,7 +201,7 @@ button {
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #633200;
 }
 
 /* Согласие */
