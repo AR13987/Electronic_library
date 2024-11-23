@@ -87,3 +87,24 @@ from django.contrib.auth import login, authenticate, logout
 def logout_user(request):
     logout(request)
     return render(request,'registration/logged_out.html')
+
+
+# API-эндпоинты(конечные точки веб-сервиса, к которой клиентское приложение обращается для выполнения определённых операций или получения данных.):
+from rest_framework import generics
+from .serializers import BookSerializer, AuthorSerializer
+
+class BookListAPIView(generics.ListAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+class AuthorListAPIView(generics.ListAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
+
+class BookDetailAPIView(generics.RetrieveAPIView):
+    queryset = Book.objects.all()
+    serializer_class = BookSerializer
+
+class AuthorDetailAPIView(generics.RetrieveAPIView):
+    queryset = Author.objects.all()
+    serializer_class = AuthorSerializer
