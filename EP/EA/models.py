@@ -42,9 +42,7 @@ class CustomUser(AbstractUser):
 
 
 from django.db import models
-from django.contrib.auth.models import User
 from datetime import date
-# Create your models here.
 class Genre(models.Model):
     """
     Model representing a book genre (e.g. Science Fiction, Non Fiction).
@@ -85,7 +83,6 @@ class Language(models.Model):
         ]
 
 
-
 class Author(models.Model):
     """
     Model representing an author.
@@ -95,12 +92,17 @@ class Author(models.Model):
     date_of_birth = models.DateField(null=True, blank=True)
     date_of_death = models.DateField('Died', null=True, blank=True)
 
+    # Новые поля
+    biography = models.TextField(max_length=2000, help_text="Enter a brief biography of the author", blank=True)
+    works = models.TextField(max_length=2000, help_text="List of works by the author", blank=True)
+    notable_achievements = models.TextField(max_length=2000, help_text="Significant achievements of the author",
+                                            blank=True)
+
     def get_absolute_url(self):
         """
         Returns the url to access a particular author instance.
         """
         return reverse('author-detail', args=[str(self.id)])
-
 
     def __str__(self):
         """
@@ -108,12 +110,11 @@ class Author(models.Model):
         """
         return '%s, %s' % (self.last_name, self.first_name)
 
-
     class Meta:
         ordering = ['last_name']
 
 
-
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 class Book(models.Model):
     """
@@ -121,13 +122,18 @@ class Book(models.Model):
     """
     title = models.CharField(max_length=200)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
-    # Foreign Key used because book can only have one author, but authors can have multiple books
     summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
-    isbn = models.CharField('ISBN',max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
+    isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
     genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
-    # ManyToManyField used because genre can contain many books. Books can cover many genres.
-    # Genre class has already been defined so we can specify the object above.
+    publication_year = models.IntegerField(blank=True, null=True, help_text="Enter the year of publication (1000-9999)", validators=[MinValueValidator(1000), MaxValueValidator(9999)])
+    category = models.CharField(blank=True, null=True, max_length=100, help_text="Enter the category of the book")
+    publisher = models.CharField(blank=True, null=True, max_length=100, help_text="Enter the publisher of the book")
+    cover_image = models.ImageField(upload_to='covers/', blank=True, null=True, help_text="Upload the cover image of the book")
+    text_file = models.FileField(upload_to='books/', blank=True, null=True, help_text="Upload the text file of the book")
+
+    class Meta:
+        unique_together = (('title', 'author', 'publication_year', 'publisher'),)  # Уникальность по указанным полям
 
     def __str__(self):
         """
@@ -135,13 +141,11 @@ class Book(models.Model):
         """
         return self.title
 
-
     def get_absolute_url(self):
         """
         Returns the url to access a particular book instance.
         """
         return reverse('book-detail', args=[str(self.id)])
-
 
     def display_genre(self):
         """
