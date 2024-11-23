@@ -14,8 +14,3 @@ urlpatterns += [
     path('book/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
     path('author/<int:pk>/', views.AuthorDetailView.as_view(), name='author-detail'),
 ]
-
-from django.conf import settings
-from django.conf.urls.static import static
-if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
