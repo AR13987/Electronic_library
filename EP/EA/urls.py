@@ -18,8 +18,8 @@ urlpatterns += [
 
 
 urlpatterns += [
-    path('api/books/', views.BookListAPIView.as_view(), name='book-list'),
-    path('api/books/<int:pk>/', views.BookDetailAPIView.as_view(), name='book-detail'),
-    path('api/authors/', views.AuthorListAPIView.as_view(), name='author-list'),
-    path('api/authors/<int:pk>/', views.AuthorDetailAPIView.as_view(), name='author-detail'),
+    path('api/books/', views.BookListAPIView.as_view(), name='api-book-list'),
+    path('api/books/<int:pk>/', views.BookDetailAPIView.as_view(), name='api-book-detail'),
+    path('api/authors/', views.AuthorListAPIView.as_view(), name='api-author-list'),
+    path('api/authors/<int:pk>/', views.AuthorDetailAPIView.as_view(), name='api-author-detail'),
 ]
