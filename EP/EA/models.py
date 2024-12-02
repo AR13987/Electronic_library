@@ -15,7 +15,7 @@ class CustomUser(AbstractUser):
 
     groups = models.ManyToManyField(
         'auth.Group',
-        related_name='groups_set',  # Измените имя здесь
+        related_name='groups_set',
         blank=True,
         help_text='The groups this user belongs to. A user will get all permissions granted to each of their groups.',
         verbose_name='groups',
@@ -23,7 +23,7 @@ class CustomUser(AbstractUser):
 
     user_permissions = models.ManyToManyField(
         'auth.Permission',
-        related_name='customuser_set',  # Измените имя здесь
+        related_name='customuser_set',
         blank=True,
         help_text='Specific permissions for this user.',
         verbose_name='user permissions',
@@ -120,15 +120,15 @@ class Book(models.Model):
         ('textbook', 'Учебник'),
     ]
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=200, null=True)
     author = models.ForeignKey(Author, on_delete=models.SET_NULL, null=True)
-    summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book")
+    summary = models.TextField(max_length=1000, help_text="Enter a brief description of the book", null=True)
     isbn = models.CharField('ISBN', max_length=13, help_text='13 Character <a href="https://www.isbn-international.org/content/what-isbn">ISBN number</a>')
-    genre = models.ManyToManyField(Genre, help_text="Select a genre for this book")
+    genre = models.ManyToManyField(Genre, help_text="Select a genre for this book", null=True)
     language = models.ForeignKey(Language, on_delete=models.SET_NULL, null=True)
-    publication_year = models.IntegerField(blank=True, null=True, help_text="Enter the year of publication (1000-9999)", validators=[MinValueValidator(1000), MaxValueValidator(9999)])
-    category = models.CharField(blank=True, null=True, max_length=100, help_text="Enter the category of the book")
-    publisher = models.CharField(blank=True, null=True, max_length=100, help_text="Enter the publisher of the book")
+    publication_year = models.IntegerField(null=True, help_text="Enter the year of publication (1000-9999)", validators=[MinValueValidator(1000), MaxValueValidator(9999)])
+    category = models.CharField(null=True, max_length=100, help_text="Enter the category of the book")
+    publisher = models.CharField(null=True, max_length=100, help_text="Enter the publisher of the book")
     cover_image = models.ImageField(upload_to='covers/', blank=True, null=True, help_text="Upload the cover image of the book")
     text_file = models.FileField(upload_to='books/', blank=True, null=True, help_text="Upload the text file of the book")
     title_type = models.CharField(blank=True, null=True, max_length=20)

@@ -108,3 +108,47 @@ class BookDetailAPIView(generics.RetrieveAPIView):
 class AuthorDetailAPIView(generics.RetrieveAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
+
+
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .serializers import BookSerializer
+
+class BookCreateView(APIView):
+    def post(self, request):
+        serializer = BookSerializer(data=request.data)
+        if serializer.is_valid():
+            title_type = serializer.validated_data['type']
+
+            if title_type == 'fiction':
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+            elif title_type == 'textbook':
+                # Проверка на существование книги с тем же названием и издателем:
+                existing_book = Book.objects.filter(
+                    title=serializer.validated_data['title'],
+                    publisher=serializer.validated_data['publisher']
+                ).first()
+
+                if existing_book:
+                    # Если книга существует, проверяется год издания:
+                    if existing_book.publication_year == serializer.validated_data['publication_year']:
+                        return Response({'message': 'Эта версия учебника уже существует'},
+                                        status=status.HTTP_400_BAD_REQUEST)
+                    else:
+                        # Добавление новой версии учебника:
+                        serializer.save()
+                        return Response(serializer.data, status=status.HTTP_201_CREATED)
+                else:
+                    # Если книги нет, добавляется новая книга:
+                    serializer.save()
+                    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get(self, request):
+        books = Book.objects.all()
+        serializer = BookSerializer(books, many=True)
+        return Response(serializer.data)
