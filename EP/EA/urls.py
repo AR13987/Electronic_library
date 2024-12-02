@@ -22,5 +22,4 @@ urlpatterns += [
     path('api/books/<int:pk>/', views.BookDetailAPIView.as_view(), name='api-book-detail'),
     path('api/authors/', views.AuthorListAPIView.as_view(), name='api-author-list'),
     path('api/authors/<int:pk>/', views.AuthorDetailAPIView.as_view(), name='api-author-detail'),
-    path('api/book/create/', views.BookCreateView.as_view(), name='book-create'),
 ]
