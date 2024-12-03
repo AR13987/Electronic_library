@@ -117,9 +117,11 @@ class Publisher(models.Model):
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.urls import reverse #Used to generate URLs by reversing the URL patterns
 class Book(models.Model):
-    TITLE_CHOICES = [
-        ('fiction', 'Художественное произведение'),
-        ('textbook', 'Учебник'),
+    FICTION = 'fiction'
+    TEXTBOOK = 'textbook'
+    CATEGORY_CHOICES = [
+        (FICTION, 'Художественное произведение'),
+        (TEXTBOOK, 'Учебник'),
     ]
 
     title = models.CharField(max_length=200, null=True)
