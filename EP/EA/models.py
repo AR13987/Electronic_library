@@ -96,12 +96,14 @@ class Author(models.Model):
 
         return reverse('author-detail', args=[str(self.id)])
 
+    class Meta:
+        ordering = ['last_name']
+        unique_together = (('first_name', 'last_name'),)
+
     def __str__(self):
 
         return '%s, %s' % (self.last_name, self.first_name)
 
-    class Meta:
-        ordering = ['last_name']
 
 
 class Publisher(models.Model):
