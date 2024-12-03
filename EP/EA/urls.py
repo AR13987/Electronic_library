@@ -24,4 +24,5 @@ urlpatterns += [
     path('api/authors/<int:pk>/', views.AuthorDetailAPIView.as_view(), name='api-author-detail'),
     path('api/authors/create', views.AuthorListCreateAPIView.as_view(), name='api-author-create'),
     path('api/books/create', views.BookListCreateAPIView.as_view(), name='api-book-create'),
+    path('api/books/search/', views.BookSearchAPIView.as_view(), name='api-book-search'),
 ]
