@@ -114,13 +114,13 @@ from rest_framework.permissions import IsAdminUser
 class AuthorListCreateAPIView(generics.ListCreateAPIView):
     queryset = Author.objects.all()
     serializer_class = AuthorSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
 
 class BookListCreateAPIView(generics.ListCreateAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [IsAdminUser]
+    # permission_classes = [IsAdminUser]
 
     def get_queryset(self):
         queryset = super().get_queryset()
@@ -131,7 +131,7 @@ class BookListCreateAPIView(generics.ListCreateAPIView):
         if title:
             queryset = queryset.filter(title__icontains=title)
         if genre:
-            queryset = queryset.filter(genre__icontains=genre)
+            queryset = queryset.filter(genre__name__icontains=genre)
         if author:
             queryset = queryset.filter(author__first_name__icontains=author) | queryset.filter(author__last_name__icontains=author)
 
@@ -151,7 +151,7 @@ class BookSearchAPIView(generics.ListAPIView):
         if title:
             queryset = queryset.filter(title__icontains=title)
         if genre:
-            queryset = queryset.filter(genre__icontains=genre)
+            queryset = queryset.filter(genre__name__icontains=genre)
         if author:
             queryset = queryset.filter(author__first_name__icontains=author) | queryset.filter(
                 author__last_name__icontains=author)
